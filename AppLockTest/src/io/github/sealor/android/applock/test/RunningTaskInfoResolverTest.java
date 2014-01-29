@@ -1,5 +1,7 @@
 package io.github.sealor.android.applock.test;
 
+import static io.github.sealor.android.applock.test.TestUtils.resolveOwnPackageName;
+import static io.github.sealor.android.applock.test.TestUtils.startTestActivity;
 import io.github.sealor.android.applock.RunningTaskInfoResolver;
 import android.content.Intent;
 import android.test.ServiceTestCase;
@@ -18,20 +20,10 @@ public class RunningTaskInfoResolverTest extends ServiceTestCase<TestFactoryServ
 
 	public void testResolveRunningAppPackageName() {
 		RunningTaskInfoResolver resolver = getService().createRunningTaskInfoResolver();
-		startTestActivity();
+		startTestActivity(getContext());
 
 		String runningAppPackageName = resolver.resolveRunningAppPackageName();
 
-		assertEquals(resolveOwnPackageName(), runningAppPackageName);
-	}
-
-	private String resolveOwnPackageName() {
-		return getService().getApplicationInfo().packageName;
-	}
-
-	private void startTestActivity() {
-		Intent intent = new Intent(getContext(), TestActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		getContext().startActivity(intent);
+		assertEquals(resolveOwnPackageName(getContext()), runningAppPackageName);
 	}
 }

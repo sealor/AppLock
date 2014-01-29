@@ -1,5 +1,7 @@
 package io.github.sealor.android.applock.test;
 
+import static io.github.sealor.android.applock.test.TestUtils.resolveOwnPackageName;
+import static io.github.sealor.android.applock.test.TestUtils.startTestActivity;
 import io.github.sealor.android.applock.AppLockService;
 
 import java.util.HashSet;
@@ -22,10 +24,10 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 
 	public void testIdentifyTestActivityAsRestrictedApp() {
 		Set<String> notAllowedPackageNames = new HashSet<String>();
-		notAllowedPackageNames.add(resolveOwnPackageName());
+		notAllowedPackageNames.add(resolveOwnPackageName(getContext()));
 		getService().setRestrictedPackageNames(notAllowedPackageNames);
 
-		startTestActivity();
+		startTestActivity(getContext());
 
 		assertEquals(true, getService().isRunningAppRestricted());
 	}
@@ -34,18 +36,8 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 		Set<String> notAllowedPackageNames = new HashSet<String>();
 		getService().setRestrictedPackageNames(notAllowedPackageNames);
 
-		startTestActivity();
+		startTestActivity(getContext());
 
 		assertEquals(false, getService().isRunningAppRestricted());
-	}
-
-	private String resolveOwnPackageName() {
-		return getService().getApplicationInfo().packageName;
-	}
-
-	private void startTestActivity() {
-		Intent intent = new Intent(getContext(), TestActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		getContext().startActivity(intent);
 	}
 }
