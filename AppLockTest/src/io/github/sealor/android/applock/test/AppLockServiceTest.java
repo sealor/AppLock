@@ -30,7 +30,7 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 		assertEquals(getService().getApplicationInfo().packageName, runningAppPackage);
 	}
 
-	public void testIdentifyRestrictedApp() {
+	public void testIdentifyTestActivityAsRestrictedApp() {
 		Set<String> notAllowedPackageNames = new HashSet<String>();
 		notAllowedPackageNames.add(getService().getApplicationInfo().packageName);
 		getService().setRestrictedPackageNames(notAllowedPackageNames);
@@ -40,5 +40,16 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 		getContext().startActivity(intent);
 
 		assertEquals(true, getService().isRunningAppRestricted());
+	}
+
+	public void testIdentifyTestActivityAsNotRestrictedApp() {
+		Set<String> notAllowedPackageNames = new HashSet<String>();
+		getService().setRestrictedPackageNames(notAllowedPackageNames);
+
+		Intent intent = new Intent(getContext(), TestActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		getContext().startActivity(intent);
+
+		assertEquals(false, getService().isRunningAppRestricted());
 	}
 }
