@@ -1,4 +1,4 @@
-package io.github.sealor.android.applock.test.broadcast;
+package io.github.sealor.android.applock.test.tooling.broadcast;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

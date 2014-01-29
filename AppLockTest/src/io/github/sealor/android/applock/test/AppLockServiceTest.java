@@ -1,11 +1,11 @@
 package io.github.sealor.android.applock.test;
 
 import static io.github.sealor.android.applock.AppLockBroadcastReceiver.RESTRICTED_APP_STARTED_BROADCAST;
-import static io.github.sealor.android.applock.test.TestUtils.resolveOwnPackageName;
-import static io.github.sealor.android.applock.test.TestUtils.startTestActivity;
+import static io.github.sealor.android.applock.test.tooling.TestUtils.resolveOwnPackageName;
+import static io.github.sealor.android.applock.test.tooling.TestUtils.startTestActivity;
 import io.github.sealor.android.applock.AppLockService;
-import io.github.sealor.android.applock.test.broadcast.TestBroadcastReceiver;
-import io.github.sealor.android.applock.test.broadcast.TestBroadcastReceiverListener;
+import io.github.sealor.android.applock.test.tooling.broadcast.TestBroadcastReceiver;
+import io.github.sealor.android.applock.test.tooling.broadcast.TestBroadcastReceiverListener;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,7 +1,7 @@
 package io.github.sealor.android.applock.test;
 
-import static io.github.sealor.android.applock.test.TestUtils.resolveOwnPackageName;
-import static io.github.sealor.android.applock.test.TestUtils.startTestActivity;
+import static io.github.sealor.android.applock.test.tooling.TestUtils.resolveOwnPackageName;
+import static io.github.sealor.android.applock.test.tooling.TestUtils.startTestActivity;
 import io.github.sealor.android.applock.RunningTaskInfoResolver;
 import android.content.Intent;
 import android.test.ServiceTestCase;
