@@ -1,6 +1,7 @@
 package io.github.sealor.android.applock;
 
 import java.util.List;
+import java.util.Set;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
@@ -10,6 +11,8 @@ import android.content.Intent;
 import android.os.IBinder;
 
 public class AppLockService extends Service {
+
+	private Set<String> restrictedPackageNames;
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -21,5 +24,13 @@ public class AppLockService extends Service {
 		final List<RunningTaskInfo> services = activityManager.getRunningTasks(1);
 		RunningTaskInfo runningApp = services.get(0);
 		return runningApp.topActivity.getPackageName();
+	}
+
+	public void setRestrictedPackageNames(Set<String> restrictedPackageNames) {
+		this.restrictedPackageNames = restrictedPackageNames;
+	}
+
+	public boolean isRunningAppRestricted() {
+		return this.restrictedPackageNames.contains(resolveRunningAppPackage());
 	}
 }
