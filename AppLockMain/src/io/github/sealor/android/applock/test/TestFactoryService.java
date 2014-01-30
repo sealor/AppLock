@@ -13,7 +13,7 @@ public class TestFactoryService extends Service {
 		return null;
 	}
 
-	public RunningTaskInfoResolver createRunningTaskInfoResolver() {
+	public RunningTaskInfoResolver createActivityManagerRunningTaskInfoResolver() {
 		return new ActivityManagerRunningTaskInfoResolver(this);
 	}
 }

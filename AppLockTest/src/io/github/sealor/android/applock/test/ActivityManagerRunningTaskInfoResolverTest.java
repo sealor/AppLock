@@ -6,9 +6,9 @@ import io.github.sealor.android.applock.taskinfo.RunningTaskInfoResolver;
 import android.content.Intent;
 import android.test.ServiceTestCase;
 
-public class RunningTaskInfoResolverTest extends ServiceTestCase<TestFactoryService> {
+public class ActivityManagerRunningTaskInfoResolverTest extends ServiceTestCase<TestFactoryService> {
 
-	public RunningTaskInfoResolverTest() {
+	public ActivityManagerRunningTaskInfoResolverTest() {
 		super(TestFactoryService.class);
 	}
 
@@ -19,7 +19,7 @@ public class RunningTaskInfoResolverTest extends ServiceTestCase<TestFactoryServ
 	}
 
 	public void testResolveRunningAppPackageName() {
-		RunningTaskInfoResolver resolver = getService().createRunningTaskInfoResolver();
+		RunningTaskInfoResolver resolver = getService().createActivityManagerRunningTaskInfoResolver();
 		startTestActivity(getContext());
 
 		String runningAppPackageName = resolver.resolveRunningAppPackageName();
