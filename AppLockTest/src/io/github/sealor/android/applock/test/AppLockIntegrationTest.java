@@ -14,9 +14,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.test.ServiceTestCase;
 
-public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
+public class AppLockIntegrationTest extends ServiceTestCase<AppLockService> {
 
-	public AppLockServiceTest() {
+	public AppLockIntegrationTest() {
 		super(AppLockService.class);
 	}
 
