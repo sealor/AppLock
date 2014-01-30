@@ -1,12 +1,12 @@
-package io.github.sealor.android.applock.appchecker;
+package io.github.sealor.android.applock.appnamestorage;
 
 import android.content.SharedPreferences;
 
-public class SharedPreferencesRestrictedAppChecker implements RestrictedAppChecker {
+public class SharedPreferencesRestrictedAppNameStorage implements RestrictedAppNameStorage {
 
 	private final SharedPreferences sharedPreferences;
 
-	public SharedPreferencesRestrictedAppChecker(SharedPreferences sharedPreferences) {
+	public SharedPreferencesRestrictedAppNameStorage(SharedPreferences sharedPreferences) {
 		this.sharedPreferences = sharedPreferences;
 	}
 

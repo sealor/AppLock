@@ -2,7 +2,7 @@ package io.github.sealor.android.applock.test;
 
 import io.github.sealor.android.applock.AppLockBroadcastReceiver;
 import io.github.sealor.android.applock.RunningAppCheckTask;
-import io.github.sealor.android.applock.appchecker.RestrictedAppChecker;
+import io.github.sealor.android.applock.appnamestorage.RestrictedAppNameStorage;
 import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 import junit.framework.TestCase;
 import android.content.Intent;
@@ -15,10 +15,10 @@ public class RunningAppCheckTaskTest extends TestCase {
 
 	public void testRestrictedAppIsRunning() {
 		TaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(APP1_PACKAGE_NAME);
-		RestrictedAppChecker restrictedAppChecker = new MockRestrictedAppChecker(APP1_PACKAGE_NAME);
+		RestrictedAppNameStorage restrictedAppNameStorage = new MockRestrictedAppNameStorage(APP1_PACKAGE_NAME);
 		MyMockContext context = new MyMockContext();
 
-		RunningAppCheckTask task = new RunningAppCheckTask(taskInfoResolver, restrictedAppChecker, context);
+		RunningAppCheckTask task = new RunningAppCheckTask(taskInfoResolver, restrictedAppNameStorage, context);
 		task.run();
 
 		assertEquals(true, context.isBroadcastSent);
@@ -26,10 +26,10 @@ public class RunningAppCheckTaskTest extends TestCase {
 
 	public void testRestrictedAppIsNotRunning() {
 		TaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(APP2_PACKAGE_NAME);
-		RestrictedAppChecker restrictedAppChecker = new MockRestrictedAppChecker(APP1_PACKAGE_NAME);
+		RestrictedAppNameStorage restrictedAppNameStorage = new MockRestrictedAppNameStorage(APP1_PACKAGE_NAME);
 		MyMockContext context = new MyMockContext();
 
-		RunningAppCheckTask task = new RunningAppCheckTask(taskInfoResolver, restrictedAppChecker, context);
+		RunningAppCheckTask task = new RunningAppCheckTask(taskInfoResolver, restrictedAppNameStorage, context);
 		task.run();
 
 		assertEquals(false, context.isBroadcastSent);
@@ -49,11 +49,11 @@ public class RunningAppCheckTaskTest extends TestCase {
 		}
 	}
 
-	private class MockRestrictedAppChecker implements RestrictedAppChecker {
+	private class MockRestrictedAppNameStorage implements RestrictedAppNameStorage {
 
 		private final String restrictedAppPackageName;
 
-		public MockRestrictedAppChecker(String restrictedAppPackageName) {
+		public MockRestrictedAppNameStorage(String restrictedAppPackageName) {
 			this.restrictedAppPackageName = restrictedAppPackageName;
 		}
 

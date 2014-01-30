@@ -1,7 +1,7 @@
 package io.github.sealor.android.applock;
 
-import io.github.sealor.android.applock.appchecker.RestrictedAppChecker;
-import io.github.sealor.android.applock.appchecker.SharedPreferencesRestrictedAppChecker;
+import io.github.sealor.android.applock.appnamestorage.RestrictedAppNameStorage;
+import io.github.sealor.android.applock.appnamestorage.SharedPreferencesRestrictedAppNameStorage;
 import io.github.sealor.android.applock.taskinfo.ActivityManagerTaskInfoResolver;
 import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 
@@ -26,8 +26,8 @@ public class AppLockService extends Service {
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
 		TaskInfoResolver taskInfoResolver = new ActivityManagerTaskInfoResolver(this);
-		RestrictedAppChecker restrictedAppChecker = new SharedPreferencesRestrictedAppChecker(sharedPreferences);
-		RunningAppCheckTask task = new RunningAppCheckTask(taskInfoResolver, restrictedAppChecker, this);
+		RestrictedAppNameStorage restrictedAppNameStorage = new SharedPreferencesRestrictedAppNameStorage(sharedPreferences);
+		RunningAppCheckTask task = new RunningAppCheckTask(taskInfoResolver, restrictedAppNameStorage, this);
 
 		this.timer = new Timer(true);
 		this.timer.schedule(task, 0, MILLIS_CHECK_FREQUENCY);
