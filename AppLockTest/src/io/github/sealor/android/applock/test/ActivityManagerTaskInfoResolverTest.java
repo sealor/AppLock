@@ -2,14 +2,14 @@ package io.github.sealor.android.applock.test;
 
 import static io.github.sealor.android.applock.test.tooling.TestUtils.resolveOwnPackageName;
 import static io.github.sealor.android.applock.test.tooling.TestUtils.startTestActivity;
-import io.github.sealor.android.applock.taskinfo.ActivityManagerRunningTaskInfoResolver;
-import io.github.sealor.android.applock.taskinfo.RunningTaskInfoResolver;
+import io.github.sealor.android.applock.taskinfo.ActivityManagerTaskInfoResolver;
+import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 import android.test.AndroidTestCase;
 
-public class ActivityManagerRunningTaskInfoResolverTest extends AndroidTestCase {
+public class ActivityManagerTaskInfoResolverTest extends AndroidTestCase {
 
 	public void testResolveRunningAppPackageName() {
-		RunningTaskInfoResolver resolver = new ActivityManagerRunningTaskInfoResolver(getContext());
+		TaskInfoResolver resolver = new ActivityManagerTaskInfoResolver(getContext());
 		startTestActivity(getContext());
 
 		String runningAppPackageName = resolver.resolveRunningAppPackageName();

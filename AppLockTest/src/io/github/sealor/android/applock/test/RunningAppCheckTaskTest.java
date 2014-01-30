@@ -3,7 +3,7 @@ package io.github.sealor.android.applock.test;
 import io.github.sealor.android.applock.AppLockBroadcastReceiver;
 import io.github.sealor.android.applock.RunningAppCheckTask;
 import io.github.sealor.android.applock.appchecker.RestrictedAppChecker;
-import io.github.sealor.android.applock.taskinfo.RunningTaskInfoResolver;
+import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 import junit.framework.TestCase;
 import android.content.Intent;
 import android.test.mock.MockContext;
@@ -14,32 +14,32 @@ public class RunningAppCheckTaskTest extends TestCase {
 	private final static String APP2_PACKAGE_NAME = "io.github.sealor.android.applock.app2";
 
 	public void testRestrictedAppIsRunning() {
-		RunningTaskInfoResolver runningTaskInfoResolver = new MockRunningTaskInfoResolver(APP1_PACKAGE_NAME);
+		TaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(APP1_PACKAGE_NAME);
 		RestrictedAppChecker restrictedAppChecker = new MockRestrictedAppChecker(APP1_PACKAGE_NAME);
 		MyMockContext context = new MyMockContext();
 
-		RunningAppCheckTask task = new RunningAppCheckTask(runningTaskInfoResolver, restrictedAppChecker, context);
+		RunningAppCheckTask task = new RunningAppCheckTask(taskInfoResolver, restrictedAppChecker, context);
 		task.run();
 
 		assertEquals(true, context.isBroadcastSent);
 	}
 
 	public void testRestrictedAppIsNotRunning() {
-		RunningTaskInfoResolver runningTaskInfoResolver = new MockRunningTaskInfoResolver(APP2_PACKAGE_NAME);
+		TaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(APP2_PACKAGE_NAME);
 		RestrictedAppChecker restrictedAppChecker = new MockRestrictedAppChecker(APP1_PACKAGE_NAME);
 		MyMockContext context = new MyMockContext();
 
-		RunningAppCheckTask task = new RunningAppCheckTask(runningTaskInfoResolver, restrictedAppChecker, context);
+		RunningAppCheckTask task = new RunningAppCheckTask(taskInfoResolver, restrictedAppChecker, context);
 		task.run();
 
 		assertEquals(false, context.isBroadcastSent);
 	}
 
-	private class MockRunningTaskInfoResolver implements RunningTaskInfoResolver {
+	private class MockTaskInfoResolver implements TaskInfoResolver {
 
 		private final String runningAppPackageName;
 
-		public MockRunningTaskInfoResolver(String runningAppPackageName) {
+		public MockTaskInfoResolver(String runningAppPackageName) {
 			this.runningAppPackageName = runningAppPackageName;
 		}
 

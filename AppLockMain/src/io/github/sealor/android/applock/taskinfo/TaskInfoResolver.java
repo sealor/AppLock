@@ -1,6 +1,6 @@
 package io.github.sealor.android.applock.taskinfo;
 
-public interface RunningTaskInfoResolver {
+public interface TaskInfoResolver {
 
 	public abstract String resolveRunningAppPackageName();
 

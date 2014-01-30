@@ -6,11 +6,11 @@ import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 
-public class ActivityManagerRunningTaskInfoResolver implements RunningTaskInfoResolver {
+public class ActivityManagerTaskInfoResolver implements TaskInfoResolver {
 
 	private final ActivityManager activityManager;
 
-	public ActivityManagerRunningTaskInfoResolver(Context context) {
+	public ActivityManagerTaskInfoResolver(Context context) {
 		this.activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
 	}
 
