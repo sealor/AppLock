@@ -68,7 +68,7 @@ public class AppLockIntegrationTest extends ServiceTestCase<AppLockService> {
 		register(receiver);
 		synchronized (receiver) {
 			startTestActivity(getContext());
-			receiver.wait(AppLockService.MILLIS_CHECK_FREQUENCY * 3);
+			receiver.wait(AppLockService.MILLIS_CHECK_FREQUENCY * 7);
 		}
 		unregister(receiver);
 	}
