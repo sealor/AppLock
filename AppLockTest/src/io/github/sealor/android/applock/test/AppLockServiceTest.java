@@ -30,7 +30,7 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 	public void testIdentifyTestActivityAsRestrictedApp() throws InterruptedException {
 		TestBroadcastReceiver receiver = new TestBroadcastReceiver();
 
-		getService().setRestrictedPackageNames(ownPackageIsRestricted());
+		setOwnPackageAsRestrictedPackage();
 
 		getContext().registerReceiver(receiver, new IntentFilter(RESTRICTED_APP_STARTED_BROADCAST));
 		synchronized (receiver) {
@@ -55,10 +55,10 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 		assertEquals(false, receiver.isRestrictedAppStarted);
 	}
 
-	private Set<String> ownPackageIsRestricted() {
+	private void setOwnPackageAsRestrictedPackage() {
 		Set<String> restrictedPackageNames = new HashSet<String>();
 		restrictedPackageNames.add(resolveOwnPackageName(getContext()));
-		return restrictedPackageNames;
+		getService().setRestrictedPackageNames(restrictedPackageNames);
 	}
 
 	public class TestBroadcastReceiver extends BroadcastReceiver {
