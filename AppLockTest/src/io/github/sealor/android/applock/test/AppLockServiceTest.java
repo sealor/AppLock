@@ -33,9 +33,7 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 		RestrictedAppBroadcastReceiverListener listener = new RestrictedAppBroadcastReceiverListener();
 		receiver.setListener(listener);
 
-		Set<String> notAllowedPackageNames = new HashSet<String>();
-		notAllowedPackageNames.add(resolveOwnPackageName(getContext()));
-		getService().setRestrictedPackageNames(notAllowedPackageNames);
+		getService().setRestrictedPackageNames(ownPackageIsRestricted());
 
 		getContext().registerReceiver(receiver, new IntentFilter(RESTRICTED_APP_STARTED_BROADCAST));
 		startTestActivity(getContext());
@@ -56,6 +54,12 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 		getContext().unregisterReceiver(receiver);
 
 		assertEquals(false, listener.isRestrictedAppStarted);
+	}
+
+	private Set<String> ownPackageIsRestricted() {
+		Set<String> restrictedPackageNames = new HashSet<String>();
+		restrictedPackageNames.add(resolveOwnPackageName(getContext()));
+		return restrictedPackageNames;
 	}
 
 	private void tryToSleep(long millis) {
