@@ -4,23 +4,20 @@ import io.github.sealor.android.applock.appchecker.RestrictedAppChecker;
 import io.github.sealor.android.applock.appchecker.SharedPreferencesRestrictedAppChecker;
 import io.github.sealor.android.applock.taskinfo.ActivityManagerRunningTaskInfoResolver;
 import io.github.sealor.android.applock.taskinfo.RunningTaskInfoResolver;
+
+import java.util.Timer;
+
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 
-public class AppLockService extends Service implements Runnable {
+public class AppLockService extends Service {
 
 	public static final long MILLIS_CHECK_FREQUENCY = 100;
 
-	private HandlerThread handlerThread;
-	private Handler handler;
-
-	private RunningTaskInfoResolver runningTaskInfoResolver;
-	private RestrictedAppChecker restrictedAppChecker;
+	private Timer timer;
 
 	@Override
 	public void onCreate() {
@@ -28,14 +25,12 @@ public class AppLockService extends Service implements Runnable {
 
 		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-		this.runningTaskInfoResolver = new ActivityManagerRunningTaskInfoResolver(this);
-		this.restrictedAppChecker = new SharedPreferencesRestrictedAppChecker(sharedPreferences);
+		RunningTaskInfoResolver runningTaskInfoResolver = new ActivityManagerRunningTaskInfoResolver(this);
+		RestrictedAppChecker restrictedAppChecker = new SharedPreferencesRestrictedAppChecker(sharedPreferences);
+		RunningAppCheckTask task = new RunningAppCheckTask(runningTaskInfoResolver, restrictedAppChecker, this);
 
-		this.handlerThread = new HandlerThread(this.getClass().getSimpleName());
-		this.handlerThread.start();
-		this.handler = new Handler(this.handlerThread.getLooper());
-
-		this.handler.postDelayed(this, MILLIS_CHECK_FREQUENCY);
+		this.timer = new Timer(true);
+		this.timer.schedule(task, 0, MILLIS_CHECK_FREQUENCY);
 	}
 
 	@Override
@@ -45,21 +40,10 @@ public class AppLockService extends Service implements Runnable {
 
 	@Override
 	public void onDestroy() {
-		if (this.handlerThread != null) {
-			this.handlerThread.quit();
+		if (this.timer != null) {
+			this.timer.cancel();
 		}
 
 		super.onDestroy();
-	}
-
-	@Override
-	public void run() {
-		String runningAppPackageName = this.runningTaskInfoResolver.resolveRunningAppPackageName();
-
-		if (this.restrictedAppChecker.isPackageNameRestricted(runningAppPackageName)) {
-			sendBroadcast(new Intent(AppLockBroadcastReceiver.RESTRICTED_APP_STARTED_BROADCAST));
-		}
-
-		this.handler.postDelayed(this, MILLIS_CHECK_FREQUENCY);
 	}
 }
