@@ -3,10 +3,10 @@ package io.github.sealor.android.applock.test;
 import io.github.sealor.android.applock.appchecker.RestrictedAppChecker;
 import io.github.sealor.android.applock.appchecker.SharedPreferencesRestrictedAppChecker;
 import io.github.sealor.android.applock.test.tooling.AbstractMockSharedPreferences;
+import junit.framework.TestCase;
 import android.content.SharedPreferences;
-import android.test.AndroidTestCase;
 
-public class SharedPreferencesRestrictedAppCheckerTest extends AndroidTestCase {
+public class SharedPreferencesRestrictedAppCheckerTest extends TestCase {
 
 	private final static String TEST1_APP_PACKAGE_NAME = "io.github.sealor.android.applock.test1";
 	private final static String TEST2_APP_PACKAGE_NAME = "io.github.sealor.android.applock.test2";
