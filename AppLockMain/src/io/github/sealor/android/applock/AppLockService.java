@@ -1,16 +1,16 @@
 package io.github.sealor.android.applock;
 
+import io.github.sealor.android.applock.appchecker.RestrictedAppChecker;
+import io.github.sealor.android.applock.appchecker.SharedPreferencesRestrictedAppChecker;
 import io.github.sealor.android.applock.taskinfo.ActivityManagerRunningTaskInfoResolver;
 import io.github.sealor.android.applock.taskinfo.RunningTaskInfoResolver;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 
 public class AppLockService extends Service implements Runnable {
 
@@ -20,14 +20,16 @@ public class AppLockService extends Service implements Runnable {
 	private Handler handler;
 
 	private RunningTaskInfoResolver runningTaskInfoResolver;
-	private Set<String> restrictedPackageNames;
+	private RestrictedAppChecker restrictedAppChecker;
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
 
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
 		this.runningTaskInfoResolver = new ActivityManagerRunningTaskInfoResolver(this);
-		this.restrictedPackageNames = new HashSet<String>();
+		this.restrictedAppChecker = new SharedPreferencesRestrictedAppChecker(sharedPreferences);
 
 		this.handlerThread = new HandlerThread(this.getClass().getSimpleName());
 		this.handlerThread.start();
@@ -50,15 +52,11 @@ public class AppLockService extends Service implements Runnable {
 		super.onDestroy();
 	}
 
-	public void setRestrictedPackageNames(Set<String> restrictedPackageNames) {
-		this.restrictedPackageNames = restrictedPackageNames;
-	}
-
 	@Override
 	public void run() {
 		String runningAppPackageName = this.runningTaskInfoResolver.resolveRunningAppPackageName();
 
-		if (this.restrictedPackageNames.contains(runningAppPackageName)) {
+		if (this.restrictedAppChecker.isPackageNameRestricted(runningAppPackageName)) {
 			sendBroadcast(new Intent(AppLockBroadcastReceiver.RESTRICTED_APP_STARTED_BROADCAST));
 		}
 

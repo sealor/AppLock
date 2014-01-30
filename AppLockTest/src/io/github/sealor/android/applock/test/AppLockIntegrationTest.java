@@ -4,14 +4,12 @@ import static io.github.sealor.android.applock.AppLockBroadcastReceiver.RESTRICT
 import static io.github.sealor.android.applock.test.tooling.TestUtils.resolveOwnPackageName;
 import static io.github.sealor.android.applock.test.tooling.TestUtils.startTestActivity;
 import io.github.sealor.android.applock.AppLockService;
-
-import java.util.HashSet;
-import java.util.Set;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.test.ServiceTestCase;
 
 public class AppLockIntegrationTest extends ServiceTestCase<AppLockService> {
@@ -30,7 +28,7 @@ public class AppLockIntegrationTest extends ServiceTestCase<AppLockService> {
 	public void testIdentifyTestActivityAsRestrictedApp() throws InterruptedException {
 		TestBroadcastReceiver receiver = new TestBroadcastReceiver();
 
-		setOwnPackageAsRestrictedPackage();
+		setOwnPackageRestriction(true);
 		startTestActivityAndWaitForBroadcast(receiver);
 
 		assertEquals(true, receiver.isRestrictedAppStarted);
@@ -39,15 +37,31 @@ public class AppLockIntegrationTest extends ServiceTestCase<AppLockService> {
 	public void testIdentifyTestActivityAsNotRestrictedApp() throws InterruptedException {
 		TestBroadcastReceiver receiver = new TestBroadcastReceiver();
 
+		setOwnPackageRestriction(false);
 		startTestActivityAndWaitForBroadcast(receiver);
 
 		assertEquals(false, receiver.isRestrictedAppStarted);
 	}
 
-	private void setOwnPackageAsRestrictedPackage() {
-		Set<String> restrictedPackageNames = new HashSet<String>();
-		restrictedPackageNames.add(resolveOwnPackageName(getContext()));
-		getService().setRestrictedPackageNames(restrictedPackageNames);
+	public void testIdentifyTestActivityAsUnknownNotRestrictedApp() throws InterruptedException {
+		TestBroadcastReceiver receiver = new TestBroadcastReceiver();
+
+		removeOwnPackageRestriction();
+		startTestActivityAndWaitForBroadcast(receiver);
+
+		assertEquals(false, receiver.isRestrictedAppStarted);
+	}
+
+	private void setOwnPackageRestriction(boolean isRestricted) {
+		String ownPackageName = resolveOwnPackageName(getContext());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		sharedPreferences.edit().putBoolean(ownPackageName, isRestricted).commit();
+	}
+
+	private void removeOwnPackageRestriction() {
+		String ownPackageName = resolveOwnPackageName(getContext());
+		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+		sharedPreferences.edit().remove(ownPackageName).commit();
 	}
 
 	private void startTestActivityAndWaitForBroadcast(TestBroadcastReceiver receiver) throws InterruptedException {
