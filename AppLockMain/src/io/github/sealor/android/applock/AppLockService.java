@@ -1,5 +1,8 @@
 package io.github.sealor.android.applock;
 
+import io.github.sealor.android.applock.taskinfo.ActivityManagerRunningTaskInfoResolver;
+import io.github.sealor.android.applock.taskinfo.RunningTaskInfoResolver;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,7 +26,7 @@ public class AppLockService extends Service implements Runnable {
 	public void onCreate() {
 		super.onCreate();
 
-		this.runningTaskInfoResolver = new RunningTaskInfoResolver(this);
+		this.runningTaskInfoResolver = new ActivityManagerRunningTaskInfoResolver(this);
 		this.restrictedPackageNames = new HashSet<String>();
 
 		this.handlerThread = new HandlerThread(this.getClass().getSimpleName());
