@@ -4,12 +4,11 @@ import static io.github.sealor.android.applock.AppLockBroadcastReceiver.RESTRICT
 import static io.github.sealor.android.applock.test.tooling.TestUtils.resolveOwnPackageName;
 import static io.github.sealor.android.applock.test.tooling.TestUtils.startTestActivity;
 import io.github.sealor.android.applock.AppLockService;
-import io.github.sealor.android.applock.test.tooling.broadcast.TestBroadcastReceiver;
-import io.github.sealor.android.applock.test.tooling.broadcast.TestBroadcastReceiverListener;
 
 import java.util.HashSet;
 import java.util.Set;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -28,32 +27,32 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 		startService(new Intent());
 	}
 
-	public void testIdentifyTestActivityAsRestrictedApp() {
+	public void testIdentifyTestActivityAsRestrictedApp() throws InterruptedException {
 		TestBroadcastReceiver receiver = new TestBroadcastReceiver();
-		RestrictedAppBroadcastReceiverListener listener = new RestrictedAppBroadcastReceiverListener();
-		receiver.setListener(listener);
 
 		getService().setRestrictedPackageNames(ownPackageIsRestricted());
 
 		getContext().registerReceiver(receiver, new IntentFilter(RESTRICTED_APP_STARTED_BROADCAST));
-		startTestActivity(getContext());
-		tryToSleep(AppLockService.MILLIS_CHECK_FREQUENCY * 2);
+		synchronized (receiver) {
+			startTestActivity(getContext());
+			receiver.wait(AppLockService.MILLIS_CHECK_FREQUENCY * 3);
+		}
 		getContext().unregisterReceiver(receiver);
 
-		assertEquals(true, listener.isRestrictedAppStarted);
+		assertEquals(true, receiver.isRestrictedAppStarted);
 	}
 
-	public void testIdentifyTestActivityAsNotRestrictedApp() {
+	public void testIdentifyTestActivityAsNotRestrictedApp() throws InterruptedException {
 		TestBroadcastReceiver receiver = new TestBroadcastReceiver();
-		RestrictedAppBroadcastReceiverListener listener = new RestrictedAppBroadcastReceiverListener();
-		receiver.setListener(listener);
 
 		getContext().registerReceiver(receiver, new IntentFilter(RESTRICTED_APP_STARTED_BROADCAST));
-		startTestActivity(getContext());
-		tryToSleep(AppLockService.MILLIS_CHECK_FREQUENCY * 2);
+		synchronized (receiver) {
+			startTestActivity(getContext());
+			receiver.wait(AppLockService.MILLIS_CHECK_FREQUENCY * 3);
+		}
 		getContext().unregisterReceiver(receiver);
 
-		assertEquals(false, listener.isRestrictedAppStarted);
+		assertEquals(false, receiver.isRestrictedAppStarted);
 	}
 
 	private Set<String> ownPackageIsRestricted() {
@@ -62,20 +61,16 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 		return restrictedPackageNames;
 	}
 
-	private void tryToSleep(long millis) {
-		try {
-			Thread.sleep(millis);
-		} catch (InterruptedException e) {
-		}
-	}
-
-	private static class RestrictedAppBroadcastReceiverListener implements TestBroadcastReceiverListener {
+	public class TestBroadcastReceiver extends BroadcastReceiver {
 
 		private boolean isRestrictedAppStarted = false;
 
 		@Override
 		public void onReceive(Context context, Intent intent) {
-			this.isRestrictedAppStarted = true;
+			synchronized (this) {
+				this.isRestrictedAppStarted = true;
+				notifyAll();
+			}
 		}
 	}
 }
