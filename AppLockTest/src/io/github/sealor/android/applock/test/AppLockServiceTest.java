@@ -31,13 +31,7 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 		TestBroadcastReceiver receiver = new TestBroadcastReceiver();
 
 		setOwnPackageAsRestrictedPackage();
-
-		register(receiver);
-		synchronized (receiver) {
-			startTestActivity(getContext());
-			receiver.wait(AppLockService.MILLIS_CHECK_FREQUENCY * 3);
-		}
-		unregister(receiver);
+		startTestActivityAndWaitForBroadcast(receiver);
 
 		assertEquals(true, receiver.isRestrictedAppStarted);
 	}
@@ -45,12 +39,7 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 	public void testIdentifyTestActivityAsNotRestrictedApp() throws InterruptedException {
 		TestBroadcastReceiver receiver = new TestBroadcastReceiver();
 
-		register(receiver);
-		synchronized (receiver) {
-			startTestActivity(getContext());
-			receiver.wait(AppLockService.MILLIS_CHECK_FREQUENCY * 3);
-		}
-		unregister(receiver);
+		startTestActivityAndWaitForBroadcast(receiver);
 
 		assertEquals(false, receiver.isRestrictedAppStarted);
 	}
@@ -59,6 +48,15 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 		Set<String> restrictedPackageNames = new HashSet<String>();
 		restrictedPackageNames.add(resolveOwnPackageName(getContext()));
 		getService().setRestrictedPackageNames(restrictedPackageNames);
+	}
+
+	private void startTestActivityAndWaitForBroadcast(TestBroadcastReceiver receiver) throws InterruptedException {
+		register(receiver);
+		synchronized (receiver) {
+			startTestActivity(getContext());
+			receiver.wait(AppLockService.MILLIS_CHECK_FREQUENCY * 3);
+		}
+		unregister(receiver);
 	}
 
 	private void register(BroadcastReceiver receiver) {
