@@ -36,7 +36,7 @@ public class PackageManagerAppInfoResolver implements AppInfoResolver {
 	private AppInfo mapToAppInfo(ApplicationInfo applicationInfo) {
 		AppInfo appInfo = new AppInfo();
 		appInfo.setPackageName(applicationInfo.packageName);
-		appInfo.setName(applicationInfo.loadLabel(this.packageManager));
+		appInfo.setLabel(applicationInfo.loadLabel(this.packageManager));
 		return appInfo;
 	}
 }

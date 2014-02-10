@@ -38,7 +38,7 @@ public class AppNamePreferenceActivity extends PreferenceActivity {
 	private CheckBoxPreference createCheckBoxPreference(AppInfo appInfo) {
 		CheckBoxPreference checkBoxPreference = new CheckBoxPreference(this);
 		checkBoxPreference.setKey(appInfo.getPackageName());
-		checkBoxPreference.setTitle(appInfo.getName());
+		checkBoxPreference.setTitle(appInfo.getLabel());
 		checkBoxPreference.setSummary(appInfo.getPackageName());
 		return checkBoxPreference;
 	}

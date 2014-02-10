@@ -3,7 +3,7 @@ package io.github.sealor.android.applock.appinfo;
 public class AppInfo {
 
 	private String packageName;
-	private CharSequence name;
+	private CharSequence label;
 
 	public String getPackageName() {
 		return packageName;
@@ -13,19 +13,19 @@ public class AppInfo {
 		this.packageName = packageName;
 	}
 
-	public CharSequence getName() {
-		return name;
+	public CharSequence getLabel() {
+		return label;
 	}
 
-	public void setName(CharSequence name) {
-		this.name = name;
+	public void setLabel(CharSequence label) {
+		this.label = label;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((label == null) ? 0 : label.hashCode());
 		result = prime * result + ((packageName == null) ? 0 : packageName.hashCode());
 		return result;
 	}
@@ -39,10 +39,10 @@ public class AppInfo {
 		if (getClass() != obj.getClass())
 			return false;
 		AppInfo other = (AppInfo) obj;
-		if (name == null) {
-			if (other.name != null)
+		if (label == null) {
+			if (other.label != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!label.equals(other.label))
 			return false;
 		if (packageName == null) {
 			if (other.packageName != null)
