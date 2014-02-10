@@ -23,6 +23,14 @@
         </activity>
         <activity android:name=".activity.PasswordActivity" />
         <activity android:name=".test.TestActivity" />
-        </application>
+
+        <receiver
+            android:name=".AppLockBroadcastReceiver"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="io.github.sealor.android.applock.RESTRICTED_APP_STARTED" />
+            </intent-filter>
+        </receiver>
+    </application>
 
 </manifest>
