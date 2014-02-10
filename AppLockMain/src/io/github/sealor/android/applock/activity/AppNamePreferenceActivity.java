@@ -2,8 +2,8 @@ package io.github.sealor.android.applock.activity;
 
 import static io.github.sealor.android.applock.tooling.ContextUtils.resolvePackageManager;
 import io.github.sealor.android.applock.ControllerFactory;
+import io.github.sealor.android.applock.appinfo.AppInfo;
 import io.github.sealor.android.applock.appinfo.AppInfoResolver;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
@@ -27,18 +27,18 @@ public class AppNamePreferenceActivity extends PreferenceActivity {
 	private void addCheckBoxPreferencesForAllApplicationInfos(AppInfoResolver applicationInfoResolver) {
 		PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(this);
 
-		for (ApplicationInfo applicationInfo : applicationInfoResolver.resolveAllInstalledAppInfos()) {
-			CheckBoxPreference checkBoxPreference = createCheckBoxPreference(applicationInfo);
+		for (AppInfo appInfo : applicationInfoResolver.resolveAllInstalledAppInfos()) {
+			CheckBoxPreference checkBoxPreference = createCheckBoxPreference(appInfo);
 			screen.addPreference(checkBoxPreference);
 		}
 
 		setPreferenceScreen(screen);
 	}
 
-	private CheckBoxPreference createCheckBoxPreference(ApplicationInfo applicationInfo) {
+	private CheckBoxPreference createCheckBoxPreference(AppInfo appInfo) {
 		CheckBoxPreference checkBoxPreference = new CheckBoxPreference(this);
-		checkBoxPreference.setKey(applicationInfo.packageName);
-		checkBoxPreference.setTitle(applicationInfo.packageName);
+		checkBoxPreference.setKey(appInfo.getPackageName());
+		checkBoxPreference.setTitle(appInfo.getName());
 		return checkBoxPreference;
 	}
 }
