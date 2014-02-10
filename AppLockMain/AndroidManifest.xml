@@ -24,6 +24,8 @@
         <activity android:name=".activity.PasswordActivity" />
         <activity android:name=".test.TestActivity" />
 
+        <service android:name=".AppLockService" />
+
         <receiver
             android:name=".AppLockBroadcastReceiver"
             android:exported="false" >
