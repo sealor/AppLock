@@ -1,6 +1,7 @@
 package io.github.sealor.android.applock.activity;
 
 import static io.github.sealor.android.applock.tooling.ContextUtils.resolvePackageManager;
+import io.github.sealor.android.applock.AppLockService;
 import io.github.sealor.android.applock.ControllerFactory;
 import io.github.sealor.android.applock.appinfo.AppInfo;
 import io.github.sealor.android.applock.appinfo.AppInfoResolver;
@@ -15,6 +16,8 @@ public class AppNamePreferenceActivity extends PreferenceActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		AppLockService.start(this);
 
 		ControllerFactory factory = ControllerFactory.INSTANCE;
 		PackageManager packageManager = resolvePackageManager(this);

@@ -8,6 +8,7 @@ import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 import java.util.Timer;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 
@@ -16,6 +17,10 @@ public class AppLockService extends Service {
 	public static final long MILLIS_CHECK_FREQUENCY = 100;
 
 	private Timer timer;
+
+	public static void start(Context context) {
+		context.startService(new Intent(context, AppLockService.class));
+	}
 
 	@Override
 	public void onCreate() {

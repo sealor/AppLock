@@ -11,9 +11,17 @@ public class AppLockBroadcastReceiver extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+			startAppLockService(context);
+		}
+
 		if (RESTRICTED_APP_STARTED_BROADCAST.equals(intent.getAction())) {
 			openPasswordActivity(context);
 		}
+	}
+
+	private void startAppLockService(Context context) {
+		AppLockService.start(context);
 	}
 
 	private void openPasswordActivity(Context context) {
