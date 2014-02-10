@@ -21,7 +21,8 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.PasswordActivity" />
         <activity android:name=".test.TestActivity" />
-    </application>
+        </application>
 
 </manifest>
