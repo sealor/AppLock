@@ -4,6 +4,8 @@ import io.github.sealor.android.applock.AppLockBroadcastReceiver;
 import io.github.sealor.android.applock.RunningAppCheckTask;
 import io.github.sealor.android.applock.appnamestorage.RestrictedAppNameStorage;
 import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
+import io.github.sealor.android.applock.test.mock.MockRestrictedAppNameStorage;
+import io.github.sealor.android.applock.test.mock.MockTaskInfoResolver;
 import junit.framework.TestCase;
 import android.content.Intent;
 import android.test.mock.MockContext;
@@ -33,34 +35,6 @@ public class RunningAppCheckTaskTest extends TestCase {
 		task.run();
 
 		assertEquals(false, context.isBroadcastSent);
-	}
-
-	private class MockTaskInfoResolver implements TaskInfoResolver {
-
-		private final String runningAppPackageName;
-
-		public MockTaskInfoResolver(String runningAppPackageName) {
-			this.runningAppPackageName = runningAppPackageName;
-		}
-
-		@Override
-		public String resolveRunningAppPackageName() {
-			return this.runningAppPackageName;
-		}
-	}
-
-	private class MockRestrictedAppNameStorage implements RestrictedAppNameStorage {
-
-		private final String restrictedAppPackageName;
-
-		public MockRestrictedAppNameStorage(String restrictedAppPackageName) {
-			this.restrictedAppPackageName = restrictedAppPackageName;
-		}
-
-		@Override
-		public boolean isPackageNameRestricted(String appPackageName) {
-			return this.restrictedAppPackageName.equals(appPackageName);
-		}
 	}
 
 	private class MyMockContext extends MockContext {
