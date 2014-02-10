@@ -3,8 +3,6 @@ package io.github.sealor.android.applock;
 import static io.github.sealor.android.applock.tooling.ContextUtils.resolveActivityManager;
 import static io.github.sealor.android.applock.tooling.ContextUtils.resolveSharedPreferences;
 import io.github.sealor.android.applock.appnamestorage.RestrictedAppNameStorage;
-import io.github.sealor.android.applock.appnamestorage.SharedPreferencesRestrictedAppNameStorage;
-import io.github.sealor.android.applock.taskinfo.ActivityManagerTaskInfoResolver;
 import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 
 import java.util.Timer;
@@ -23,9 +21,11 @@ public class AppLockService extends Service {
 	public void onCreate() {
 		super.onCreate();
 
-		TaskInfoResolver taskInfoResolver = new ActivityManagerTaskInfoResolver(resolveActivityManager(this));
-		RestrictedAppNameStorage storage = new SharedPreferencesRestrictedAppNameStorage(resolveSharedPreferences(this));
-		RunningAppCheckTask task = new RunningAppCheckTask(taskInfoResolver, storage, this);
+		ControllerFactory factory = ControllerFactory.INSTANCE;
+
+		TaskInfoResolver taskInfoResolver = factory.createTaskInfoResolver(resolveActivityManager(this));
+		RestrictedAppNameStorage storage = factory.createRestrictedAppNameStorage(resolveSharedPreferences(this));
+		RunningAppCheckTask task = factory.createRunningAppCheckTask(taskInfoResolver, storage, this);
 
 		this.timer = new Timer(true);
 		this.timer.schedule(task, 0, MILLIS_CHECK_FREQUENCY);
