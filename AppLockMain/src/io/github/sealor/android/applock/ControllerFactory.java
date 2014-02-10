@@ -1,5 +1,7 @@
 package io.github.sealor.android.applock;
 
+import io.github.sealor.android.applock.appinfo.ApplicationInfoResolver;
+import io.github.sealor.android.applock.appinfo.PackageManagerApplicationInfoResolver;
 import io.github.sealor.android.applock.appnamestorage.RestrictedAppNameStorage;
 import io.github.sealor.android.applock.appnamestorage.SharedPreferencesRestrictedAppNameStorage;
 import io.github.sealor.android.applock.taskinfo.ActivityManagerTaskInfoResolver;
@@ -7,6 +9,7 @@ import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 
 public class ControllerFactory {
 
@@ -27,5 +30,9 @@ public class ControllerFactory {
 	public RunningAppCheckTask createRunningAppCheckTask(TaskInfoResolver taskInfoResolver,
 			RestrictedAppNameStorage restrictedAppNameStorage, Context context) {
 		return new RunningAppCheckTask(taskInfoResolver, restrictedAppNameStorage, context);
+	}
+
+	public ApplicationInfoResolver createApplicationInfoResolver(PackageManager packageManager) {
+		return new PackageManagerApplicationInfoResolver(packageManager);
 	}
 }
