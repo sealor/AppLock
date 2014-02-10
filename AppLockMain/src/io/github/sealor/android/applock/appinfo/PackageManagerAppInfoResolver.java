@@ -5,11 +5,11 @@ import java.util.List;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
-public class PackageManagerApplicationInfoResolver implements ApplicationInfoResolver {
+public class PackageManagerAppInfoResolver implements AppInfoResolver {
 
 	private final PackageManager packageManager;
 
-	public PackageManagerApplicationInfoResolver(PackageManager packageManager) {
+	public PackageManagerAppInfoResolver(PackageManager packageManager) {
 		super();
 
 		this.packageManager = packageManager;

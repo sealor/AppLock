@@ -4,7 +4,7 @@ import java.util.List;
 
 import android.content.pm.ApplicationInfo;
 
-public interface ApplicationInfoResolver {
+public interface AppInfoResolver {
 
 	List<ApplicationInfo> resolveAllInstalledAppInfos();
 }

@@ -1,18 +1,18 @@
 package io.github.sealor.android.applock.test;
 
 import static io.github.sealor.android.applock.test.tooling.TestUtils.resolveOwnApplicationInfo;
-import io.github.sealor.android.applock.appinfo.ApplicationInfoResolver;
-import io.github.sealor.android.applock.appinfo.PackageManagerApplicationInfoResolver;
+import io.github.sealor.android.applock.appinfo.AppInfoResolver;
+import io.github.sealor.android.applock.appinfo.PackageManagerAppInfoResolver;
 
 import java.util.List;
 
 import android.content.pm.ApplicationInfo;
 import android.test.AndroidTestCase;
 
-public class PackageManagerApplicationInfoResolverTest extends AndroidTestCase {
+public class PackageManagerAppInfoResolverTest extends AndroidTestCase {
 
 	public void testResolveAllInstalledAppInfos() {
-		ApplicationInfoResolver resolver = new PackageManagerApplicationInfoResolver(getContext().getPackageManager());
+		AppInfoResolver resolver = new PackageManagerAppInfoResolver(getContext().getPackageManager());
 
 		List<ApplicationInfo> appInfos = resolver.resolveAllInstalledAppInfos();
 
