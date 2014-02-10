@@ -23,14 +23,16 @@ public class AppLockService extends Service {
 	public void onCreate() {
 		super.onCreate();
 
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
 		TaskInfoResolver taskInfoResolver = new ActivityManagerTaskInfoResolver(this);
-		RestrictedAppNameStorage restrictedAppNameStorage = new SharedPreferencesRestrictedAppNameStorage(sharedPreferences);
-		RunningAppCheckTask task = new RunningAppCheckTask(taskInfoResolver, restrictedAppNameStorage, this);
+		RestrictedAppNameStorage appStorage = new SharedPreferencesRestrictedAppNameStorage(resolveSharedPreferences());
+		RunningAppCheckTask task = new RunningAppCheckTask(taskInfoResolver, appStorage, this);
 
 		this.timer = new Timer(true);
 		this.timer.schedule(task, 0, MILLIS_CHECK_FREQUENCY);
+	}
+
+	private SharedPreferences resolveSharedPreferences() {
+		return PreferenceManager.getDefaultSharedPreferences(this);
 	}
 
 	@Override
