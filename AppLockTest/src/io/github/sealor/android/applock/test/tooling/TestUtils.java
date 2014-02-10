@@ -3,16 +3,11 @@ package io.github.sealor.android.applock.test.tooling;
 import io.github.sealor.android.applock.test.TestActivity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 
 public class TestUtils {
 
-	public static ApplicationInfo resolveOwnApplicationInfo(Context context) {
-		return context.getApplicationInfo();
-	}
-
 	public static String resolveOwnPackageName(Context context) {
-		return resolveOwnApplicationInfo(context).packageName;
+		return context.getApplicationInfo().packageName;
 	}
 
 	public static void startTestActivity(Context context) {
