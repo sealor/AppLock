@@ -4,12 +4,15 @@ import static io.github.sealor.android.applock.test.tooling.TestUtils.resolveOwn
 import static io.github.sealor.android.applock.test.tooling.TestUtils.startTestActivity;
 import io.github.sealor.android.applock.taskinfo.ActivityManagerTaskInfoResolver;
 import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
+import android.app.ActivityManager;
+import android.content.Context;
 import android.test.AndroidTestCase;
 
 public class ActivityManagerTaskInfoResolverTest extends AndroidTestCase {
 
 	public void testResolveRunningAppPackageName() {
-		TaskInfoResolver resolver = new ActivityManagerTaskInfoResolver(getContext());
+		ActivityManager activityManager = (ActivityManager) getContext().getSystemService(Context.ACTIVITY_SERVICE);
+		TaskInfoResolver resolver = new ActivityManagerTaskInfoResolver(activityManager);
 		startTestActivity(getContext());
 
 		String runningAppPackageName = resolver.resolveRunningAppPackageName();

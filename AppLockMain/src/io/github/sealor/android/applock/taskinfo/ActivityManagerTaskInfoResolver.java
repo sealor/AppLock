@@ -4,14 +4,13 @@ import java.util.List;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
-import android.content.Context;
 
 public class ActivityManagerTaskInfoResolver implements TaskInfoResolver {
 
 	private final ActivityManager activityManager;
 
-	public ActivityManagerTaskInfoResolver(Context context) {
-		this.activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+	public ActivityManagerTaskInfoResolver(ActivityManager activityManager) {
+		this.activityManager = activityManager;
 	}
 
 	@Override

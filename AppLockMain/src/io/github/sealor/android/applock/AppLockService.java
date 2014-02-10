@@ -7,7 +7,9 @@ import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 
 import java.util.Timer;
 
+import android.app.ActivityManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.IBinder;
@@ -23,12 +25,16 @@ public class AppLockService extends Service {
 	public void onCreate() {
 		super.onCreate();
 
-		TaskInfoResolver taskInfoResolver = new ActivityManagerTaskInfoResolver(this);
+		TaskInfoResolver taskInfoResolver = new ActivityManagerTaskInfoResolver(resolveActivityManager());
 		RestrictedAppNameStorage appStorage = new SharedPreferencesRestrictedAppNameStorage(resolveSharedPreferences());
 		RunningAppCheckTask task = new RunningAppCheckTask(taskInfoResolver, appStorage, this);
 
 		this.timer = new Timer(true);
 		this.timer.schedule(task, 0, MILLIS_CHECK_FREQUENCY);
+	}
+
+	private ActivityManager resolveActivityManager() {
+		return (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
 	}
 
 	private SharedPreferences resolveSharedPreferences() {
