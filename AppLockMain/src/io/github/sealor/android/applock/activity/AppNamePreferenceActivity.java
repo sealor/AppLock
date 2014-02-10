@@ -18,16 +18,16 @@ public class AppNamePreferenceActivity extends PreferenceActivity {
 
 		ControllerFactory factory = ControllerFactory.INSTANCE;
 		PackageManager packageManager = resolvePackageManager(this);
-		AppInfoResolver applicationInfoResolver = factory.createAppInfoResolver(packageManager);
+		AppInfoResolver appInfoResolver = factory.createAppInfoResolver(packageManager);
 
-		addCheckBoxPreferencesForAllApplicationInfos(applicationInfoResolver);
+		addCheckBoxPreferencesForAllAppInfos(appInfoResolver);
 	}
 
 	@SuppressWarnings("deprecation")
-	private void addCheckBoxPreferencesForAllApplicationInfos(AppInfoResolver applicationInfoResolver) {
+	private void addCheckBoxPreferencesForAllAppInfos(AppInfoResolver appInfoResolver) {
 		PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(this);
 
-		for (AppInfo appInfo : applicationInfoResolver.resolveAllInstalledAppInfos()) {
+		for (AppInfo appInfo : appInfoResolver.resolveAllInstalledAppInfos()) {
 			CheckBoxPreference checkBoxPreference = createCheckBoxPreference(appInfo);
 			screen.addPreference(checkBoxPreference);
 		}
