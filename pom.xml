@@ -8,14 +8,20 @@
 	<packaging>pom</packaging>
 
 	<properties>
+		<!-- general -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<!-- dependency versions -->
+		<applock.version>1.0-SNAPSHOT</applock.version>
+		<android.version>4.1.1.4</android.version>
+		<android-maven-plugin.version>3.7.0</android-maven-plugin.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-			<version>4.1.1.4</version>
+			<version>${android.version}</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
