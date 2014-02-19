@@ -105,27 +105,59 @@
 							</execution>
 						</executions>
 					</plugin>
-				</plugins>
-			</build>
 
-			<reporting>
-				<plugins>
 					<plugin>
-						<!-- Plugin for generate report - if you want use sonar you could skip 
-							this raport plugin -->
-						<groupId>org.sonatype.maven.plugin</groupId>
-						<artifactId>emma4it-maven-plugin</artifactId>
-						<version>${emma4it-maven-plugin.version}</version>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>2.6</version>
+						<executions>
+							<execution>
+								<id>copy-dependencies</id>
+								<phase>package</phase>
+								<goals>
+									<goal>copy-dependencies</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.build.directory}/lib</outputDirectory>
+									<overWriteReleases>false</overWriteReleases>
+									<overWriteSnapshots>false</overWriteSnapshots>
+									<overWriteIfNewer>true</overWriteIfNewer>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.2.1</version>
+						<executions>
+							<execution>
+								<phase>post-integration-test</phase>
+								<goals>
+									<goal>exec</goal>
+								</goals>
+							</execution>
+						</executions>
 						<configuration>
-							<metadatas>${tested.project.dir}/target/emma/coverage.em,${tested.project.dir}/src/</metadatas>
-							<instrumentations>${tested.project.dir}/target/emma/coverage.ec</instrumentations>
-							<reportDirectory>${tested.project.dir}/target/emma/</reportDirectory>
-							<baseDirectory>${tested.project.dir}/target/</baseDirectory>
-							<formats>xml,html</formats>
+							<executable>java</executable>
+							<arguments>
+								<argument>-cp</argument>
+								<argument>${project.build.directory}/lib/*</argument>
+								<argument>emma</argument>
+								<argument>report</argument>
+								<argument>-r</argument>
+								<argument>html</argument>
+								<argument>-in</argument>
+								<argument>${tested.project.dir}/target/emma/coverage.em,${tested.project.dir}/target/emma/coverage.ec</argument>
+								<argument>-sp</argument>
+								<argument>${tested.project.dir}/src</argument>
+								<argument>-Dreport.html.out.file=target/emma/index.html</argument>
+							</arguments>
 						</configuration>
 					</plugin>
 				</plugins>
-			</reporting>
+			</build>
 		</profile>
 	</profiles>
 </project>

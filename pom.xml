@@ -32,6 +32,6 @@
 		<module>AppLockTest</module>
 	</modules>
 
-	<!-- EclEmma: mvn clean install -Pemma && mvn org.sonatype.maven.plugin:emma4it-maven-plugin:1.3:report -->
+	<!-- EclEmma: mvn clean install -Pemma -->
 
 </project>
