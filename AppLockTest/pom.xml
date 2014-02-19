@@ -53,4 +53,19 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>emma</id>
+			<dependencies>
+				<dependency>
+					<groupId>emma</groupId>
+					<artifactId>emma</artifactId>
+					<type>jar</type>
+					<scope>compile</scope>
+					<version>2.0.5312</version>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
 </project>
