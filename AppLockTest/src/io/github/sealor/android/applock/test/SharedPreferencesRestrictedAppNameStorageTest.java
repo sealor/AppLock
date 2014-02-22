@@ -29,6 +29,15 @@ public class SharedPreferencesRestrictedAppNameStorageTest extends TestCase {
 		assertEquals(false, isTestAppRestricted);
 	}
 
+	public void testNullParameterThrowingNoException() {
+		SharedPreferences sharedPreferences = new MockSharedPreferences();
+		RestrictedAppNameStorage storage = new SharedPreferencesRestrictedAppNameStorage(sharedPreferences);
+
+		boolean isTestAppRestricted = storage.isPackageNameRestricted(null);
+
+		assertEquals(false, isTestAppRestricted);
+	}
+
 	private static class MockSharedPreferences extends AbstractMockSharedPreferences {
 
 		@Override
