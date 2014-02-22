@@ -30,6 +30,11 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 		assertEquals(runCount, task.runCount);
 	}
 
+	public void testForbiddenBinding() {
+		startService(new Intent());
+		assertNull(getService().onBind(null));
+	}
+
 	private class MockControllerFactory extends ControllerFactory {
 
 		private RunningAppCheckTask task;
