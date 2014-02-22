@@ -5,6 +5,7 @@ import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 
 import java.util.TimerTask;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 
@@ -14,7 +15,7 @@ public class StartingAppCheckTask extends TimerTask {
 	private RestrictedAppNameStorage restrictedAppNameStorage;
 	private Context context;
 
-	private String lastRunningAppPackageName = null;
+	private ComponentName lastRunningComponentName = null;
 
 	public StartingAppCheckTask(TaskInfoResolver taskInfoResolver, RestrictedAppNameStorage restrictedAppNameStorage,
 			Context context) {
@@ -27,12 +28,12 @@ public class StartingAppCheckTask extends TimerTask {
 
 	@Override
 	public void run() {
-		String runningAppPackageName = this.taskInfoResolver.resolveRunningAppPackageName();
+		ComponentName runningComponentName = this.taskInfoResolver.resolveRunningComponentName();
 
-		if (this.lastRunningAppPackageName == null || !this.lastRunningAppPackageName.equals(runningAppPackageName)) {
-			this.lastRunningAppPackageName = runningAppPackageName;
+		if (this.lastRunningComponentName == null || !this.lastRunningComponentName.equals(runningComponentName)) {
+			this.lastRunningComponentName = runningComponentName;
 
-			if (this.restrictedAppNameStorage.isPackageNameRestricted(runningAppPackageName)) {
+			if (this.restrictedAppNameStorage.isPackageNameRestricted(runningComponentName.getPackageName())) {
 				this.context.sendBroadcast(new Intent(AppLockBroadcastReceiver.RESTRICTED_APP_STARTED_BROADCAST));
 			}
 		}

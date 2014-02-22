@@ -7,6 +7,7 @@ import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 import io.github.sealor.android.applock.test.mock.MockRestrictedAppNameStorage;
 import io.github.sealor.android.applock.test.mock.MockTaskInfoResolver;
 import junit.framework.TestCase;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.test.mock.MockContext;
 
@@ -16,7 +17,7 @@ public class StartingAppCheckTaskTest extends TestCase {
 	private final static String APP2_PACKAGE_NAME = "io.github.sealor.android.applock.app2";
 
 	public void testRestrictedAppIsStarted() {
-		TaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(APP1_PACKAGE_NAME);
+		TaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(createComponentName(APP1_PACKAGE_NAME));
 		RestrictedAppNameStorage restrictedAppNameStorage = new MockRestrictedAppNameStorage(APP1_PACKAGE_NAME);
 		MyMockContext context = new MyMockContext();
 
@@ -27,7 +28,7 @@ public class StartingAppCheckTaskTest extends TestCase {
 	}
 
 	public void testRestrictedAppIsNotStarted() {
-		TaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(APP2_PACKAGE_NAME);
+		TaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(createComponentName(APP2_PACKAGE_NAME));
 		RestrictedAppNameStorage restrictedAppNameStorage = new MockRestrictedAppNameStorage(APP1_PACKAGE_NAME);
 		MyMockContext context = new MyMockContext();
 
@@ -38,7 +39,7 @@ public class StartingAppCheckTaskTest extends TestCase {
 	}
 
 	public void testRestrictedAppIsStartedEventOccursOnlyOnce() {
-		TaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(APP1_PACKAGE_NAME);
+		TaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(createComponentName(APP1_PACKAGE_NAME));
 		RestrictedAppNameStorage restrictedAppNameStorage = new MockRestrictedAppNameStorage(APP1_PACKAGE_NAME);
 		MyMockContext context = new MyMockContext();
 
@@ -52,7 +53,7 @@ public class StartingAppCheckTaskTest extends TestCase {
 	}
 
 	public void testRestrictedAppIsStartedAfterOtherApp() {
-		MockTaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(APP2_PACKAGE_NAME);
+		MockTaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(createComponentName(APP2_PACKAGE_NAME));
 		RestrictedAppNameStorage restrictedAppNameStorage = new MockRestrictedAppNameStorage(APP1_PACKAGE_NAME);
 		MyMockContext context = new MyMockContext();
 
@@ -60,9 +61,13 @@ public class StartingAppCheckTaskTest extends TestCase {
 		task.run();
 		assertEquals(false, context.isBroadcastSent);
 
-		taskInfoResolver.runningAppPackageName = APP1_PACKAGE_NAME;
+		taskInfoResolver.runningComponentName = createComponentName(APP1_PACKAGE_NAME);
 		task.run();
 		assertEquals(true, context.isBroadcastSent);
+	}
+
+	private ComponentName createComponentName(String packageName) {
+		return new ComponentName(packageName, this.getClass().getName());
 	}
 
 	private class MyMockContext extends MockContext {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
+import android.content.ComponentName;
 
 public class ActivityManagerTaskInfoResolver implements TaskInfoResolver {
 
@@ -14,9 +15,8 @@ public class ActivityManagerTaskInfoResolver implements TaskInfoResolver {
 	}
 
 	@Override
-	public String resolveRunningAppPackageName() {
+	public ComponentName resolveRunningComponentName() {
 		final List<RunningTaskInfo> services = activityManager.getRunningTasks(1);
-		RunningTaskInfo runningApp = services.get(0);
-		return runningApp.topActivity.getPackageName();
+		return services.get(0).topActivity;
 	}
 }
