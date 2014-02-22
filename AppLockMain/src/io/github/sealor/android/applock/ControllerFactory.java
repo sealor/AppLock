@@ -27,9 +27,9 @@ public class ControllerFactory {
 		return new SharedPreferencesRestrictedAppNameStorage(sharedPreferences);
 	}
 
-	public RunningAppCheckTask createRunningAppCheckTask(TaskInfoResolver taskInfoResolver,
+	public StartingAppCheckTask createStartingAppCheckTask(TaskInfoResolver taskInfoResolver,
 			RestrictedAppNameStorage restrictedAppNameStorage, Context context) {
-		return new RunningAppCheckTask(taskInfoResolver, restrictedAppNameStorage, context);
+		return new StartingAppCheckTask(taskInfoResolver, restrictedAppNameStorage, context);
 	}
 
 	public AppInfoResolver createAppInfoResolver(PackageManager packageManager) {

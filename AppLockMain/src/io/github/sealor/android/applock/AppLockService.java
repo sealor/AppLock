@@ -30,7 +30,7 @@ public class AppLockService extends Service {
 
 		TaskInfoResolver taskInfoResolver = factory.createTaskInfoResolver(resolveActivityManager(this));
 		RestrictedAppNameStorage storage = factory.createRestrictedAppNameStorage(resolveSharedPreferences(this));
-		RunningAppCheckTask task = factory.createRunningAppCheckTask(taskInfoResolver, storage, this);
+		StartingAppCheckTask task = factory.createStartingAppCheckTask(taskInfoResolver, storage, this);
 
 		this.timer = new Timer(true);
 		this.timer.schedule(task, 0, MILLIS_CHECK_FREQUENCY);

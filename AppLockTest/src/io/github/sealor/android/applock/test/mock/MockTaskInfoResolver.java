@@ -4,7 +4,7 @@ import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 
 public class MockTaskInfoResolver implements TaskInfoResolver {
 
-	private final String runningAppPackageName;
+	public String runningAppPackageName;
 
 	public MockTaskInfoResolver(String runningAppPackageName) {
 		this.runningAppPackageName = runningAppPackageName;

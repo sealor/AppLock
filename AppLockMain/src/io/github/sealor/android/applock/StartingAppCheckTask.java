@@ -8,14 +8,16 @@ import java.util.TimerTask;
 import android.content.Context;
 import android.content.Intent;
 
-public class RunningAppCheckTask extends TimerTask {
+public class StartingAppCheckTask extends TimerTask {
 
 	private TaskInfoResolver taskInfoResolver;
 	private RestrictedAppNameStorage restrictedAppNameStorage;
 	private Context context;
 
-	public RunningAppCheckTask(TaskInfoResolver taskInfoResolver,
-			RestrictedAppNameStorage restrictedAppNameStorage, Context context) {
+	private String lastRunningAppPackageName = null;
+
+	public StartingAppCheckTask(TaskInfoResolver taskInfoResolver, RestrictedAppNameStorage restrictedAppNameStorage,
+			Context context) {
 		super();
 
 		this.taskInfoResolver = taskInfoResolver;
@@ -27,8 +29,12 @@ public class RunningAppCheckTask extends TimerTask {
 	public void run() {
 		String runningAppPackageName = this.taskInfoResolver.resolveRunningAppPackageName();
 
-		if (this.restrictedAppNameStorage.isPackageNameRestricted(runningAppPackageName)) {
-			this.context.sendBroadcast(new Intent(AppLockBroadcastReceiver.RESTRICTED_APP_STARTED_BROADCAST));
+		if (this.lastRunningAppPackageName == null || !this.lastRunningAppPackageName.equals(runningAppPackageName)) {
+			this.lastRunningAppPackageName = runningAppPackageName;
+
+			if (this.restrictedAppNameStorage.isPackageNameRestricted(runningAppPackageName)) {
+				this.context.sendBroadcast(new Intent(AppLockBroadcastReceiver.RESTRICTED_APP_STARTED_BROADCAST));
+			}
 		}
 	}
 }

@@ -2,7 +2,7 @@ package io.github.sealor.android.applock.test;
 
 import io.github.sealor.android.applock.AppLockService;
 import io.github.sealor.android.applock.ControllerFactory;
-import io.github.sealor.android.applock.RunningAppCheckTask;
+import io.github.sealor.android.applock.StartingAppCheckTask;
 import io.github.sealor.android.applock.appnamestorage.RestrictedAppNameStorage;
 import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 import android.content.Context;
@@ -16,7 +16,7 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 	}
 
 	public void testRepeatingAppCheck() throws InterruptedException {
-		MockRunningAppCheckTask task = new MockRunningAppCheckTask();
+		MockStartingAppCheckTask task = new MockStartingAppCheckTask();
 		ControllerFactory.INSTANCE = new MockControllerFactory(task);
 		startService(new Intent());
 
@@ -37,26 +37,26 @@ public class AppLockServiceTest extends ServiceTestCase<AppLockService> {
 
 	private class MockControllerFactory extends ControllerFactory {
 
-		private RunningAppCheckTask task;
+		private StartingAppCheckTask task;
 
-		public MockControllerFactory(RunningAppCheckTask task) {
+		public MockControllerFactory(StartingAppCheckTask task) {
 			super();
 
 			this.task = task;
 		}
 
 		@Override
-		public RunningAppCheckTask createRunningAppCheckTask(TaskInfoResolver taskInfoResolver,
+		public StartingAppCheckTask createStartingAppCheckTask(TaskInfoResolver taskInfoResolver,
 				RestrictedAppNameStorage restrictedAppNameStorage, Context context) {
 			return this.task;
 		}
 	}
 
-	private class MockRunningAppCheckTask extends RunningAppCheckTask {
+	private class MockStartingAppCheckTask extends StartingAppCheckTask {
 
 		private int runCount = 0;
 
-		public MockRunningAppCheckTask() {
+		public MockStartingAppCheckTask() {
 			super(null, null, null);
 		}
 
