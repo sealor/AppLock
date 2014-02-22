@@ -1,5 +1,6 @@
 package io.github.sealor.android.applock;
 
+import io.github.sealor.android.applock.activity.PasswordActivity;
 import io.github.sealor.android.applock.appnamestorage.RestrictedAppNameStorage;
 import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 
@@ -30,12 +31,23 @@ public class StartingAppCheckTask extends TimerTask {
 	public void run() {
 		ComponentName runningComponentName = this.taskInfoResolver.resolveRunningComponentName();
 
-		if (this.lastRunningComponentName == null || !this.lastRunningComponentName.equals(runningComponentName)) {
-			this.lastRunningComponentName = runningComponentName;
+		if (!isAppLockPasswordActivity(runningComponentName)) {
+			if (isStartingActivity(runningComponentName)) {
+				this.lastRunningComponentName = runningComponentName;
 
-			if (this.restrictedAppNameStorage.isPackageNameRestricted(runningComponentName.getPackageName())) {
-				this.context.sendBroadcast(new Intent(AppLockBroadcastReceiver.RESTRICTED_APP_STARTED_BROADCAST));
+				if (this.restrictedAppNameStorage.isPackageNameRestricted(runningComponentName.getPackageName())) {
+					this.context.sendBroadcast(new Intent(AppLockBroadcastReceiver.RESTRICTED_APP_STARTED_BROADCAST));
+				}
 			}
 		}
+	}
+
+	private boolean isAppLockPasswordActivity(ComponentName componentName) {
+		return this.context.getPackageName().equals(componentName.getPackageName())
+				&& componentName.getClassName().equals(PasswordActivity.class.getName());
+	}
+
+	private boolean isStartingActivity(ComponentName componentName) {
+		return this.lastRunningComponentName == null || !this.lastRunningComponentName.equals(componentName);
 	}
 }

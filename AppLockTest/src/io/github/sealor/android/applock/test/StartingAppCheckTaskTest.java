@@ -2,6 +2,7 @@ package io.github.sealor.android.applock.test;
 
 import io.github.sealor.android.applock.AppLockBroadcastReceiver;
 import io.github.sealor.android.applock.StartingAppCheckTask;
+import io.github.sealor.android.applock.activity.PasswordActivity;
 import io.github.sealor.android.applock.appnamestorage.RestrictedAppNameStorage;
 import io.github.sealor.android.applock.taskinfo.TaskInfoResolver;
 import io.github.sealor.android.applock.test.mock.MockRestrictedAppNameStorage;
@@ -13,6 +14,7 @@ import android.test.mock.MockContext;
 
 public class StartingAppCheckTaskTest extends TestCase {
 
+	private final static String APP_LOCK_PACKAGE_NAME = "io.github.sealor.android.applock";
 	private final static String APP1_PACKAGE_NAME = "io.github.sealor.android.applock.app1";
 	private final static String APP2_PACKAGE_NAME = "io.github.sealor.android.applock.app2";
 
@@ -66,12 +68,28 @@ public class StartingAppCheckTaskTest extends TestCase {
 		assertEquals(true, context.isBroadcastSent);
 	}
 
+	public void testIgnoreAppLockPasswordInput() {
+		ComponentName passwordComponentName = new ComponentName(APP_LOCK_PACKAGE_NAME, PasswordActivity.class.getName());
+		MockTaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(passwordComponentName);
+		RestrictedAppNameStorage restrictedAppNameStorage = new MockRestrictedAppNameStorage(APP1_PACKAGE_NAME);
+		MyMockContext context = new MyMockContext();
+
+		StartingAppCheckTask task = new StartingAppCheckTask(taskInfoResolver, restrictedAppNameStorage, context);
+		task.run();
+		assertEquals(false, context.isBroadcastSent);
+	}
+
 	private ComponentName createComponentName(String packageName) {
 		return new ComponentName(packageName, this.getClass().getName());
 	}
 
 	private class MyMockContext extends MockContext {
 		private boolean isBroadcastSent = false;
+
+		@Override
+		public String getPackageName() {
+			return APP_LOCK_PACKAGE_NAME;
+		}
 
 		@Override
 		public void sendBroadcast(Intent intent) {
