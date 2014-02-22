@@ -41,7 +41,7 @@ public class StartingAppCheckTaskTest extends TestCase {
 	}
 
 	public void testRestrictedAppIsStartedEventOccursOnlyOnce() {
-		TaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(createComponentName(APP1_PACKAGE_NAME));
+		MockTaskInfoResolver taskInfoResolver = new MockTaskInfoResolver(createComponentName(APP1_PACKAGE_NAME));
 		RestrictedAppNameStorage restrictedAppNameStorage = new MockRestrictedAppNameStorage(APP1_PACKAGE_NAME);
 		MyMockContext context = new MyMockContext();
 
@@ -50,6 +50,10 @@ public class StartingAppCheckTaskTest extends TestCase {
 		assertEquals(true, context.isBroadcastSent);
 
 		context.isBroadcastSent = false;
+		task.run();
+		assertEquals(false, context.isBroadcastSent);
+
+		taskInfoResolver.runningComponentName = new ComponentName(APP1_PACKAGE_NAME, String.class.getName());
 		task.run();
 		assertEquals(false, context.isBroadcastSent);
 	}

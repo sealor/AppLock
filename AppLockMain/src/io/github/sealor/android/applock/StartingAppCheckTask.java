@@ -32,7 +32,7 @@ public class StartingAppCheckTask extends TimerTask {
 		ComponentName runningComponentName = this.taskInfoResolver.resolveRunningComponentName();
 
 		if (!isAppLockPasswordActivity(runningComponentName)) {
-			if (isStartingActivity(runningComponentName)) {
+			if (isStartingNewComponentPackage(runningComponentName)) {
 				this.lastRunningComponentName = runningComponentName;
 
 				if (this.restrictedAppNameStorage.isPackageNameRestricted(runningComponentName.getPackageName())) {
@@ -47,7 +47,8 @@ public class StartingAppCheckTask extends TimerTask {
 				&& componentName.getClassName().equals(PasswordActivity.class.getName());
 	}
 
-	private boolean isStartingActivity(ComponentName componentName) {
-		return this.lastRunningComponentName == null || !this.lastRunningComponentName.equals(componentName);
+	private boolean isStartingNewComponentPackage(ComponentName componentName) {
+		return this.lastRunningComponentName == null
+				|| !this.lastRunningComponentName.getPackageName().equals(componentName.getPackageName());
 	}
 }
