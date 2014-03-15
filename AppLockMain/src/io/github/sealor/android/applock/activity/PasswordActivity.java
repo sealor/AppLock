@@ -2,6 +2,7 @@ package io.github.sealor.android.applock.activity;
 
 import io.github.sealor.android.applock.R;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,5 +33,17 @@ public class PasswordActivity extends Activity implements OnClickListener {
 		} else {
 			this.passwordInput.getText().clear();
 		}
+	}
+
+	@Override
+	public void onBackPressed() {
+		launchHomeScreen();
+	}
+
+	private void launchHomeScreen() {
+		Intent startMain = new Intent(Intent.ACTION_MAIN);
+		startMain.addCategory(Intent.CATEGORY_HOME);
+		startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		startActivity(startMain);
 	}
 }
