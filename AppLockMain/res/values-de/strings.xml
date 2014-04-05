@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">AppLock</string>
+    <string name="passwordButton">OK</string>
+    <string name="password_title">Passwort</string>
+    <string name="password_summary">Passwort festlegen</string>
+    <string name="app_name_title">Geschützte Apps</string>
+    <string name="app_name_summary">Geschützte Apps auswählen</string>
+
+</resources>
