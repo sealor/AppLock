@@ -13,6 +13,18 @@
             android:title="@string/app_name_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/general" >
+        <io.github.sealor.android.applock.activity.preference.AmazonPreference
+            android:summary="@string/donation_amazon_summary"
+            android:title="@string/donation_amazon_title" />
+
+        <io.github.sealor.android.applock.activity.preference.PayPalPreference
+            android:summary="@string/donation_paypal_summary"
+            android:title="@string/donation_paypal_title" />
+
+        <io.github.sealor.android.applock.activity.preference.BitcoinPreference
+            android:summary="@string/donation_bitcoin_summary"
+            android:title="@string/donation_bitcoin_title" />
+
         <io.github.sealor.android.applock.activity.preference.AboutPreference android:title="@string/about_title" />
     </PreferenceCategory>
 

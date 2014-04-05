@@ -9,5 +9,13 @@
     <string name="about_title">Über diese App</string>
     <string name="about_text">Diese App wurde von Stefan Richter entwickelt.\n\nAppLock beschützt deine Privatsphäre vor unberechtigtem App-Zugang.\n\nE-Mail: jdevsr3@googlemail.com</string>
     <string name="general">Allgemein</string>
+    <string name="donation_amazon_title">Amazon Wunschliste</string>
+    <string name="donation_amazon_summary">Hier können Sie die App-Entwicklung mit einer Aufmerksamkeit unterstützen</string>
+    <string name="donation_paypal_title">PayPal</string>
+    <string name="donation_paypal_summary">Hier können Sie die App-Entwicklung mit einer Aufmerksamkeit unterstützen</string>
+    <string name="donation_bitcoin_title">Bitcoin</string>
+    <string name="donation_bitcoin_summary">Hier können Sie die App-Entwicklung mit einer Aufmerksamkeit unterstützen</string>
+    <string name="donation_bitcoin_toast">Die Bitcoin Adresse wurde in die Zwischenablage kopiert.</string>
+    <string name="link_copied_to_clipboard">Der Link wurde in die Zwischenablage kopiert.</string>
 
 </resources>
