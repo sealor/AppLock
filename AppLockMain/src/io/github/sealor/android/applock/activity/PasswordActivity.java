@@ -7,12 +7,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
-public class PasswordActivity extends Activity implements OnClickListener {
+public class PasswordActivity extends Activity implements OnClickListener, OnEditorActionListener {
 
 	public static final String PASSWORD_HASH_PREFERENCE_KEY = "PASSWORD_HASH";
 
@@ -29,10 +32,21 @@ public class PasswordActivity extends Activity implements OnClickListener {
 		this.passwordButton = (Button) findViewById(R.id.passwordButton);
 
 		this.passwordButton.setOnClickListener(this);
+		this.passwordInput.setOnEditorActionListener(this);
+	}
+
+	@Override
+	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+		submit();
+		return true;
 	}
 
 	@Override
 	public void onClick(View v) {
+		submit();
+	}
+
+	public void submit() {
 		String inputPassword = String.valueOf(this.passwordInput.getText().toString());
 		String inputPasswordHash = DigestUtils.tryToCreateSha256(inputPassword);
 		String appPasswordHash = resolvePasswordHash();
