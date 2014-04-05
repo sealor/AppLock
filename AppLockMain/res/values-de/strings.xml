@@ -6,5 +6,8 @@
     <string name="password_summary">Passwort festlegen</string>
     <string name="app_name_title">Geschützte Apps</string>
     <string name="app_name_summary">Geschützte Apps auswählen</string>
+    <string name="about_title">Über diese App</string>
+    <string name="about_text">Diese App wurde von Stefan Richter entwickelt.\n\nAppLock beschützt deine Privatsphäre vor unberechtigtem App-Zugang.\n\nE-Mail: jdevsr3@googlemail.com</string>
+    <string name="general">Allgemein</string>
 
 </resources>

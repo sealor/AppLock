@@ -12,5 +12,8 @@
             android:summary="@string/app_name_summary"
             android:title="@string/app_name_title" />
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/general" >
+        <io.github.sealor.android.applock.activity.preference.AboutPreference android:title="@string/about_title" />
+    </PreferenceCategory>
 
 </PreferenceScreen>
