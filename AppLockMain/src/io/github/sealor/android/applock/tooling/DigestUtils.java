@@ -7,7 +7,7 @@ import android.util.Base64;
 
 public class DigestUtils {
 
-	public static String tryToCreateSha256(String text) {
+	public static String createSha256(String text) {
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-256");
 
@@ -16,7 +16,7 @@ public class DigestUtils {
 
 			return Base64.encodeToString(digest, Base64.DEFAULT);
 		} catch (NoSuchAlgorithmException e) {
-			return text;
+			throw new RuntimeException(e);
 		}
 	}
 }

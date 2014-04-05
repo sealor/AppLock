@@ -13,11 +13,18 @@ public class EditPasswordPreference extends EditTextPreference {
 
 	@Override
 	protected boolean persistString(String value) {
-		return super.persistString(DigestUtils.tryToCreateSha256(value));
+		if (value == null) {
+			return false;
+		} else if (value.equals("")) {
+			getEditor().remove(getKey()).commit();
+			return true;
+		} else {
+			return super.persistString(DigestUtils.createSha256(value));
+		}
 	}
 
 	@Override
 	protected String getPersistedString(String defaultReturnValue) {
-		return "password";
+		return defaultReturnValue;
 	}
 }

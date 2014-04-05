@@ -86,6 +86,6 @@ public class PasswordActivityTest extends ActivityInstrumentationTestCase2<Passw
 
 	private void definePassword(String password) {
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		prefs.edit().putString(PASSWORD_HASH_PREFERENCE_KEY, DigestUtils.tryToCreateSha256(password)).commit();
+		prefs.edit().putString(PASSWORD_HASH_PREFERENCE_KEY, DigestUtils.createSha256(password)).commit();
 	}
 }

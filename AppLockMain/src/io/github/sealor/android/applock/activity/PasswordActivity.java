@@ -48,7 +48,7 @@ public class PasswordActivity extends Activity implements OnClickListener, OnEdi
 
 	public void submit() {
 		String inputPassword = String.valueOf(this.passwordInput.getText().toString());
-		String inputPasswordHash = DigestUtils.tryToCreateSha256(inputPassword);
+		String inputPasswordHash = DigestUtils.createSha256(inputPassword);
 		String appPasswordHash = resolvePasswordHash();
 
 		if (appPasswordHash == null || appPasswordHash.equals(inputPasswordHash)) {
