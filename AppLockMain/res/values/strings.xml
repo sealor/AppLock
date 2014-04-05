@@ -2,5 +2,9 @@
 
     <string name="app_name">AppLock</string>
     <string name="passwordButton">OK</string>
+    <string name="password_title">Password</string>
+    <string name="password_summary">Define your password</string>
+    <string name="app_name_title">Protected apps</string>
+    <string name="app_name_summary">Select protected apps</string>
 
 </resources>

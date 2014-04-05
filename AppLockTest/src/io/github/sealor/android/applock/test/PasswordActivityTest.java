@@ -1,14 +1,18 @@
 package io.github.sealor.android.applock.test;
 
+import static io.github.sealor.android.applock.activity.PasswordActivity.PASSWORD_HASH_PREFERENCE_KEY;
 import static io.github.sealor.android.applock.tooling.ContextUtils.resolveActivityManager;
 import io.github.sealor.android.applock.R;
 import io.github.sealor.android.applock.activity.PasswordActivity;
+import io.github.sealor.android.applock.tooling.DigestUtils;
 
 import java.util.List;
 
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningTaskInfo;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +25,7 @@ public class PasswordActivityTest extends ActivityInstrumentationTestCase2<Passw
 
 	public void testCorrectPasswordInput() throws Throwable {
 		final Activity activity = getActivity();
+		definePassword("534");
 
 		runTestOnUiThread(new Runnable() {
 
@@ -39,6 +44,7 @@ public class PasswordActivityTest extends ActivityInstrumentationTestCase2<Passw
 
 	public void testIncorrectPasswordInput() throws Throwable {
 		final Activity activity = getActivity();
+		definePassword("534");
 
 		runTestOnUiThread(new Runnable() {
 
@@ -76,5 +82,10 @@ public class PasswordActivityTest extends ActivityInstrumentationTestCase2<Passw
 				assertTrue(infoList.get(0).baseActivity.getPackageName().contains("launcher"));
 			}
 		});
+	}
+
+	private void definePassword(String password) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+		prefs.edit().putString(PASSWORD_HASH_PREFERENCE_KEY, DigestUtils.tryToCreateSha256(password)).commit();
 	}
 }

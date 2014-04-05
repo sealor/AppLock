@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/app_name" >
+        <io.github.sealor.android.applock.activity.preference.EditPasswordPreference
+            android:inputType="textPassword"
+            android:key="PASSWORD_HASH"
+            android:summary="@string/password_summary"
+            android:title="@string/password_title" />
+
+        <io.github.sealor.android.applock.activity.preference.AppNamePreference
+            android:summary="@string/app_name_summary"
+            android:title="@string/app_name_title" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
