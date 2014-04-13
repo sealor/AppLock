@@ -17,5 +17,6 @@
     <string name="donation_bitcoin_summary">Hier können Sie die App-Entwicklung mit einer Aufmerksamkeit unterstützen</string>
     <string name="donation_bitcoin_toast">Die Bitcoin Adresse wurde in die Zwischenablage kopiert.</string>
     <string name="link_copied_to_clipboard">Der Link wurde in die Zwischenablage kopiert.</string>
-
+    <string name="password_label">Geben Sie bitte ihr Passwort ein:</string>
+    
 </resources>
