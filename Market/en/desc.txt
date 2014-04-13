@@ -1,0 +1,9 @@
+This App gives you the ability to password protect all your installed apps.
+
+The main focus lies on simplicity and trustworthiness. This app uses as less permissions as possible and is open source.
+
+I would be glad if you help me to improve this app or support the development with a donation.
+
+https://github.com/sealor/AppLock
+
+This app is provided "as-is" without any express or implied warranty!

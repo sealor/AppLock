@@ -1,0 +1,9 @@
+Diese App bietet dir die Möglichkeit deine installierten Apps mit einem Passwort zu schützen.
+
+Der Hauptfokus der App liegt auf einfacher Bedienung und hoher Vertrauenswürdigkeit. Die App benötigt so wenig wie möglich Berechtigungen und der Quelltext ist als Open Source Software verfügbar.
+
+Ich würde mich freuen, wenn du mir bei der weiteren Verbesserung hilfst oder die Entwicklung mit einer Spende unterstützt.
+
+https://github.com/sealor/AppLock
+
+Diese App wurde mit größter Sorgfalt entwickelt. Trotz dessen kann ich keine Haftung für mögliche technische Schäden übernehmen.
